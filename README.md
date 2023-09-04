@@ -30,12 +30,12 @@ Hard-coding the formatting for menus, textboxes and the like is tedious, error-p
 The design goals are as follows:
 * Provide a declarative, HTML-like syntax for specifying UI elements.
 * Support dynamically-sized elements. Container elements like rows, columns, and borders should snugly fit around their contents without the programmer having to explicitly give sizes and positions of elements.
-* Combine seamlessly alongside the existing 2D drawing capabilities of Raylib.
+* Work seamlessly alongside the existing 2D drawing capabilities of Raylib.
 
 ## How to Use It
-1. Copy `ui.c` and `ui.h` into C project and add a line to your makefile so that `uic.c` is included in the builder. You can use this project's makefile as an example.
+1. Copy `ui.c` and `ui.h` into your C project and add a line to your makefile so that `uic.c` is included in the build. You can use this project's makefile as an example.
 
-2. Import "ui.h" into your main file.
+2. Include "ui.h" in your main file.
 
 3. After calling Raylib's `InitWindow` function, allocate a `UIBuilder`. The parameter to this function is the maximum number of tokens that will be in the UI. This corresponds exactly to the number of times you call functions like `UIText` and `UIRow`.
 ```
@@ -50,7 +50,7 @@ UIBuilder *builder = UIBuilderAlloc(1024);
 6. Call `UIBuilderDraw(builder,origin)`, where `origin` is a Raylib `Vector2` that specifies the top-left corner of the UI.
 
 ## UI Reference
-* `UIRect` - specifies a colored rectangle. This eventually invokes Raylib's `DrawRect` function.
+* `UIRect` - declare a colored rectangle. This eventually invokes Raylib's `DrawRect` function.
 
 * `UIText` - declare text of a given color and size. This eventually invokes Raylib's `DrawText` function.
 
