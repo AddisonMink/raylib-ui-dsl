@@ -36,10 +36,10 @@ void UIRowEnd(UIBuilder *builder);
 void UIColumn(UIBuilder *builder, float spacing);
 void UIColumnEnd(UIBuilder *builder);
 
-void UIAlignH(UIBuilder *builder, AlignH align, float width);
+void UIAlignH(UIBuilder *builder, AlignH align);
 void UIAlignHEnd(UIBuilder *builder);
 
-void UIAlignV(UIBuilder *builder, AlignV align, float height);
+void UIAlignV(UIBuilder *builder, AlignV align);
 void UIAlignVEnd(UIBuilder *builder);
 
 void UIPadding(UIBuilder *builder, float spacing);

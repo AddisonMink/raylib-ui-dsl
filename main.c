@@ -16,6 +16,14 @@ int main(void)
         ClearBackground(BLACK);
         UIInit(builder);
 
+        UIRow(builder, 2);
+            UIRect(builder, 200, 200, GREEN);
+            UIAlignV(builder, BOTTOM);
+                UIRect(builder, 100, 100, YELLOW);
+            UIAlignVEnd(builder);
+        UIRowEnd(builder);
+
+        /*
         UIAlignH(builder, CENTER, screenWidth);
             UIAlignV(builder, MIDDLE, screenHeight);
                 UIBorder(builder, 2, WHITE);
@@ -31,6 +39,7 @@ int main(void)
                 UIBorderEnd(builder);
             UIAlignVEnd(builder);
         UIAlignHEnd(builder);
+        */
 
         UIDraw(builder, (Vector2){0, 0});
 

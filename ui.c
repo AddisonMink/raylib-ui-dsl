@@ -1,5 +1,6 @@
 #include "ui.h"
 
+#pragma region Types
 typedef enum TokenType
 {
     TOKEN_ROOT,
@@ -46,13 +47,11 @@ typedef struct ColumnToken
 typedef struct AlignHToken
 {
     AlignH align;
-    float width;
 } AlignHToken;
 
 typedef struct AlignVToken
 {
     AlignV align;
-    float height;
 } AlignVToken;
 
 typedef struct PaddingToken
@@ -93,7 +92,9 @@ typedef struct UIBuilder
     Token **contextStack;
     size_t stackIndex;
 } UIBuilder;
+#pragma endregion
 
+#pragma region Initialization
 UIBuilder *UIBuilderAlloc(size_t maxTokens)
 {
     UIBuilder *builder = MemAlloc(sizeof(UIBuilder));
@@ -110,6 +111,8 @@ void UIBuilderFree(UIBuilder *builder)
     MemFree(builder->contextStack);
     MemFree(builder);
 }
+
+#pragma endregion
 
 static Token *pushToken(UIBuilder *builder, TokenType type)
 {
@@ -189,13 +192,12 @@ void UIColumnEnd(UIBuilder *builder)
     pushToken(builder, TOKEN_COLUMN_END);
 }
 
-void UIAlignH(UIBuilder *builder, AlignH align, float width)
+void UIAlignH(UIBuilder *builder, AlignH align)
 {
     Token *token = pushToken(builder, TOKEN_ALIGN_H);
     if (token)
     {
         token->alignH.align = align;
-        token->alignH.width = width;
     }
 }
 
@@ -204,13 +206,12 @@ void UIAlignHEnd(UIBuilder *builder)
     pushToken(builder, TOKEN_ALIGN_H_END);
 }
 
-void UIAlignV(UIBuilder *builder, AlignV align, float height)
+void UIAlignV(UIBuilder *builder, AlignV align)
 {
     Token *token = pushToken(builder, TOKEN_ALIGN_V);
     if (token)
     {
         token->alignV.align = align;
-        token->alignV.height = height;
     }
 }
 
@@ -295,7 +296,7 @@ static void updateContextSize(UIBuilder *builder, Token *token)
 
     case TOKEN_ALIGN_H:
     {
-        context->width = context->alignH.width;
+        context->width = token->width;
         if (context->height < token->height)
             context->height = token->height;
     }
@@ -303,7 +304,7 @@ static void updateContextSize(UIBuilder *builder, Token *token)
 
     case TOKEN_ALIGN_V:
     {
-        context->height = context->alignV.height;
+        context->height = token->height;
         if (context->width < token->width)
             context->width = token->width;
     }
@@ -530,17 +531,19 @@ static void draw(UIBuilder *builder, Vector2 position)
         case TOKEN_ALIGN_H:
         {
             Token *nextToken = &builder->tokenList[i + 1];
-            token->position = peekContext(builder)->position;
+            Token *context = peekContext(builder);
+            token->position = context->position;
+            float width = context->width;
 
             switch (token->alignH.align)
             {
             case LEFT:
                 break;
             case CENTER:
-                token->position.x += token->width / 2 - nextToken->width / 2;
+                token->position.x += width / 2 - nextToken->width / 2;
                 break;
             case RIGHT:
-                token->position.x += token->width - nextToken->width;
+                token->position.x += width - nextToken->width;
                 break;
             }
 
@@ -559,17 +562,19 @@ static void draw(UIBuilder *builder, Vector2 position)
         case TOKEN_ALIGN_V:
         {
             Token *nextToken = &builder->tokenList[i + 1];
-            token->position = peekContext(builder)->position;
+            Token *context = peekContext(builder);
+            token->position = context->position;
+            float height = context->height;
 
             switch (token->alignV.align)
             {
             case TOP:
                 break;
             case MIDDLE:
-                token->position.y += token->height / 2 - nextToken->height / 2;
+                token->position.y += height / 2 - nextToken->height / 2;
                 break;
             case BOTTOM:
-                token->position.y += token->height - nextToken->height;
+                token->position.y += height - nextToken->height;
                 break;
             }
 
