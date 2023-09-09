@@ -38,19 +38,14 @@ void UIColumn(UIBuilder *builder, float spacing);
 void UIColumnEnd(UIBuilder *builder);
 
 void UIAlignH(UIBuilder *builder, AlignH align);
-void UIAlignHEnd(UIBuilder *builder);
 
 void UIAlignV(UIBuilder *builder, AlignV align);
-void UIAlignVEnd(UIBuilder *builder);
 
 void UIAlign(UIBuilder *builder, AlignH alignH, AlignV alignV);
-void UIAlignEnd(UIBuilder *builder);
 
 void UIPadding(UIBuilder *builder, float spacing);
-void UIPaddingEnd(UIBuilder *builder);
 
 void UIBorder(UIBuilder *builder, float thickness, Color color);
-void UIBorderEnd(UIBuilder *builder);
 
 void UIDraw(UIBuilder *builder, Vector2 position);
 
