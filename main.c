@@ -14,32 +14,21 @@ int main(void)
     {
         BeginDrawing();
         ClearBackground(BLACK);
-        UIInit(builder);
+        UIInitEx(builder, screenWidth, screenHeight);
 
-        UIRow(builder, 2);
-            UIRect(builder, 200, 200, GREEN);
-            UIAlignV(builder, BOTTOM);
-                UIRect(builder, 100, 100, YELLOW);
-            UIAlignVEnd(builder);
-        UIRowEnd(builder);
-
-        /*
-        UIAlignH(builder, CENTER, screenWidth);
-            UIAlignV(builder, MIDDLE, screenHeight);
+        UIAlign(builder, CENTER, MIDDLE);
                 UIBorder(builder, 2, WHITE);
                     UIPadding(builder, 12);
                         UIColumn(builder, 10);
                             UIRect(builder, 100, 100, RED);
-                            UIAlignH(builder, CENTER, 100);
+                            UIAlignH(builder, CENTER);
                                 UIText(builder, "Hello", 20, WHITE);
                             UIAlignHEnd(builder);
                             UIRect(builder, 100, 100, BLUE);
                         UIColumnEnd(builder);
                     UIPaddingEnd(builder);
                 UIBorderEnd(builder);
-            UIAlignVEnd(builder);
-        UIAlignHEnd(builder);
-        */
+        UIAlignEnd(builder);
 
         UIDraw(builder, (Vector2){0, 0});
 

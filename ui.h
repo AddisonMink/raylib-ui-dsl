@@ -25,6 +25,7 @@ UIBuilder *UIBuilderAlloc(size_t maxTokens);
 void UIBuilderFree(UIBuilder *builder);
 
 void UIInit(UIBuilder *builder);
+void UIInitEx(UIBuilder *builder, float width, float height);
 
 void UIRect(UIBuilder *builder, float width, float height, Color color);
 
@@ -41,6 +42,9 @@ void UIAlignHEnd(UIBuilder *builder);
 
 void UIAlignV(UIBuilder *builder, AlignV align);
 void UIAlignVEnd(UIBuilder *builder);
+
+void UIAlign(UIBuilder *builder, AlignH alignH, AlignV alignV);
+void UIAlignEnd(UIBuilder *builder);
 
 void UIPadding(UIBuilder *builder, float spacing);
 void UIPaddingEnd(UIBuilder *builder);
