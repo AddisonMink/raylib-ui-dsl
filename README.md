@@ -90,6 +90,8 @@ There are 4 classes of element:
 
 - `UIBorder` - Wraps a rectangular border around its child.
 
+- `UIShim` - Gives its child an explicit size.
+
 ### Containers
 - `UIRow` - Arranges its child elements in a row. Everything between `UIRow` and `UIRowEnd` is included in the row. It *must* be followed by a `UIRowEnd` element. Otherwise, behavior is undefined.
 
