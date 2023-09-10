@@ -47,6 +47,8 @@ void UIPadding(UIBuilder *builder, float spacing);
 
 void UIBorder(UIBuilder *builder, float thickness, Color color);
 
+void UIShim(UIBuilder *builder, float width, float height);
+
 void UIDraw(UIBuilder *builder, Vector2 position);
 
 #endif
