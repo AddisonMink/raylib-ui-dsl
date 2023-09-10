@@ -34,7 +34,7 @@ UIDraw(builder, (Vector2){0, 0});
 
 Produces this output:
 
-![hello world](screenshots/hello-world.png "Hello World")
+![demo](screenshots/demo.png "demo")
 
 
 ## Purpose
