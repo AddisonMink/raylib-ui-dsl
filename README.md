@@ -1,5 +1,5 @@
 # Raylib UI DSL
-A DSL for formatting and drawing UI's using Raylib and C.
+A DSL for formatting and drawing UIs using Raylib and C.
 
 ## Example
 
