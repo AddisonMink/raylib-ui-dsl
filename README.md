@@ -5,18 +5,31 @@ A DSL for formatting and drawing UI's using Raylib and C.
 
 This code:
 ```C
-UIInit(builder);
+UIInitEx(builder, screenWidth, screenHeight);
 
+UIAlign(builder, CENTER, MIDDLE);
 UIBorder(builder, 2, WHITE);
-    UIPadding(builder, 12);
-        UIColumn(builder, 10);
-            UIText(builder, "Hello", 32, WHITE);
-            UIText(builder, "World", 32, WHITE);
-        UIColumnEnd(builder);
-    UIPaddingEnd(builder);
-UIBorderEnd(builder);
+UIPadding(builder, 12);
+UIColumn(builder, 10);
+{
+    UIRect(builder, 100, 100, RED);
+    UIAlignH(builder, CENTER);
 
-UIDraw(builder, (Vector2){100, 100});
+    UIText(builder, "Hello", 20, WHITE);
+    UIRect(builder, 100, 100, BLUE);
+
+    UIRow(builder, 10);
+    {
+        UIRect(builder, 100, 100, GREEN);
+
+        UIAlignV(builder, MIDDLE);
+        UIRect(builder, 50, 50, YELLOW);
+    }
+    UIRowEnd(builder);
+}
+UIColumnEnd(builder);
+
+UIDraw(builder, (Vector2){0, 0});
 ```
 
 Produces this output:
@@ -43,28 +56,44 @@ UIBuilder *builder = UIBuilderAlloc(1024);
 ```
 
 
-4. After calling Raylib's `BeginDrawing` function, call `UIBuilderInit(builder)` to reset the internal state of the `UIBuilder`.
+4. After calling Raylib's `BeginDrawing` function, call `UIInit(builder)` to reset the internal state of the `UIBuilder`.
 
 5. Declare a UI.
 
-6. Call `UIBuilderDraw(builder,origin)`, where `origin` is a Raylib `Vector2` that specifies the top-left corner of the UI.
+6. Call `UIDraw(builder,origin)`, where `origin` is a Raylib `Vector2` that specifies the top-left corner of the UI.
 
-## UI Reference
-* `UIRect` - declare a colored rectangle. This eventually invokes Raylib's `DrawRect` function.
+## DSL Reference
+In addition, to `UIInit` and `UIDraw` functions are provided to declare UI elements.
 
-* `UIText` - declare text of a given color and size. This eventually invokes Raylib's `DrawText` function.
+There are 4 classes of element:
 
-* `UIRow` - declare that the next elements will be arranged in a row. You must use the `UIRowEnd` function to declare the end of the row.
+* *Root* - implicitly declared during `UIInit`. It is the parent of all other elements. It will have the same size as the element it contains. `UIInit` lets you manually specify the size of the root element.
 
-* `UIColumn` - like `UIRow`, but it declares a column.
+* *Primitives* - `UIText` and `UIRect` are leaf elements. Their size is known at the time of declaration.
 
-* `UIAlignH` - declare that the next element will be aligned in a given width. Possible alignments are `LEFT`, `CENTER`, and `RIGHT`. You must use the `UIAlignHEnd` function after declaring the aligned element.
+* *Modifiers* - `UIAlign`, `UIPadding`, and `UIBorder` have exactly 1 child element. Their size is derived from the size of their child element.
 
-* `UIAlignV` - like `UIAlignH`, but it aligns the next element vertically. The aligned element must be followed by `UIAlignVEnd`.
+* *Containers* - `UIRow` and `UIColumn` have 0 or more children. The end of a container is declared with the corresponding function `UIRowEnd` or `UIColumnEnd`.
 
-* `UIPadding` - declare that the next element will have padding. You must call the `UIPaddingEnd` function after declaring the padded element.
+### Primitives
+- `UIText` - draws a string with a given font size and color.
+- `UIRect` - draws a rectangle with the given dimensions and color.
 
-* `UIBorder` - declare that the nexet element will have a border around it. You must call the `UIBorderEnd` function after declaring the bordered element. This eventualy calls Raylib's `DrawRectangleLinesEx` function. The border is drawn *just inside* the element's bounds, so you don't need to worry about the border overlapping a neighboring element.
+### Modifiers
+- `UIAlignH` - Horizontally aligns its child element within its parent element. Inherits the width of its parent element and the height of its child element.
+
+- `UIAlignV` - See `UIAlignH`, but vertical.
+
+- `UIAlign` - Aligns its child element both vertically and horizontally within its parent element. Inherits the width and height of its parent element.
+
+- `UIPadding` - Centers its child inside of an empty margin. 
+
+- `UIBorder` - Wraps a rectangular border around its child.
+
+### Containers
+- `UIRow` - Arranges its child elements in a row. Everything between `UIRow` and `UIRowEnd` is included in the row. It *must* be followed by a `UIRowEnd` element. Otherwise, behavior is undefined.
+
+- `UIColumn` - See `UIRow`.
 
 ## How it Works
 I may do a write-up on this eventually.
