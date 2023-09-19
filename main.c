@@ -14,6 +14,7 @@ int main(void)
     {
         BeginDrawing();
         ClearBackground(BLACK);
+
         UIInitEx(builder, screenWidth, screenHeight);
 
         UIAlign(builder, CENTER, MIDDLE);
@@ -24,7 +25,12 @@ int main(void)
             UIRect(builder, 100, 100, RED);
             UIAlignH(builder, CENTER);
 
+            UIShimV(builder, 50);
+            UIAlignV(builder, BOTTOM);
             UIText(builder, "Hello", 20, WHITE);
+
+            UIShimH(builder, 110);
+            UIAlignH(builder, RIGHT);
             UIRect(builder, 100, 100, BLUE);
 
             UIRow(builder, 10);
@@ -37,7 +43,14 @@ int main(void)
             UIRowEnd(builder);
         }
         UIColumnEnd(builder);
+        UIDraw(builder, (Vector2){0, 0});
 
+        UIInitEx(builder, screenWidth, screenHeight);
+        UIAlign(builder, CENTER, MIDDLE);
+        UIBackground(builder, BLACK);
+        UIBorder(builder, 2, RED);
+        UIPadding(builder, 12);
+        UIText(builder, "Overlay", 20, RED);
         UIDraw(builder, (Vector2){0, 0});
 
         EndDrawing();

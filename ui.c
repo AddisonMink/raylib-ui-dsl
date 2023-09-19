@@ -23,6 +23,9 @@ typedef enum TokenType
     TOKEN_PADDING,
     TOKEN_BORDER,
     TOKEN_SHIM,
+    TOKEN_SHIM_H,
+    TOKEN_SHIM_V,
+    TOKEN_BACKROUND
 } TokenType;
 
 typedef struct RectToken
@@ -76,6 +79,11 @@ typedef struct BorderToken
     Color color;
 } BorderToken;
 
+typedef struct BackgroundToken
+{
+    Color color;
+} BackgroundToken;
+
 typedef struct Token
 {
     TokenType type;
@@ -90,6 +98,7 @@ typedef struct Token
         AlignToken align;
         PaddingToken padding;
         BorderToken border;
+        BackgroundToken background;
     };
     float width;
     float height;
@@ -260,6 +269,27 @@ void UIShim(UIBuilder *builder, float width, float height)
     }
 }
 
+void UIShimH(UIBuilder *builder, float width)
+{
+    Token *token = pushToken(builder, TOKEN_SHIM_H);
+    if (token)
+        token->width = width;
+}
+
+void UIShimV(UIBuilder *builder, float height)
+{
+    Token *token = pushToken(builder, TOKEN_SHIM_V);
+    if (token)
+        token->height = height;
+}
+
+void UIBackground(UIBuilder *builder, Color color)
+{
+    Token *token = pushToken(builder, TOKEN_BACKROUND);
+    if (token)
+        token->background.color = color;
+}
+
 #pragma endregion
 
 #pragma region stack
@@ -387,6 +417,34 @@ static void updateContextSize(UIBuilder *builder, Token *token)
 
         case TOKEN_SHIM:
         {
+            popContext(builder);
+            token = context;
+            cont = true;
+        }
+        break;
+
+        case TOKEN_SHIM_H:
+        {
+            context->height = token->height;
+            popContext(builder);
+            token = context;
+            cont = true;
+        }
+        break;
+
+        case TOKEN_SHIM_V:
+        {
+            context->width = token->width;
+            popContext(builder);
+            token = context;
+            cont = true;
+        }
+        break;
+
+        case TOKEN_BACKROUND:
+        {
+            context->width = token->width;
+            context->height = token->height;
             popContext(builder);
             token = context;
             cont = true;
@@ -660,6 +718,27 @@ static void draw(UIBuilder *builder, Vector2 position)
         }
         break;
 
+        case TOKEN_SHIM_H:
+        {
+            token->position = peekContext(builder)->position;
+            pushContext(builder, token);
+        }
+        break;
+
+        case TOKEN_SHIM_V:
+        {
+            token->position = peekContext(builder)->position;
+            pushContext(builder, token);
+        }
+        break;
+
+        case TOKEN_BACKROUND:
+        {
+            token->position = peekContext(builder)->position;
+            DrawRectangle(token->position.x, token->position.y, token->width, token->height, token->background.color);
+            pushContext(builder, token);
+        }
+        break;
         }
     }
 }

@@ -37,17 +37,19 @@ void UIRowEnd(UIBuilder *builder);
 void UIColumn(UIBuilder *builder, float spacing);
 void UIColumnEnd(UIBuilder *builder);
 
-void UIAlignH(UIBuilder *builder, AlignH align);
-
-void UIAlignV(UIBuilder *builder, AlignV align);
-
 void UIAlign(UIBuilder *builder, AlignH alignH, AlignV alignV);
+void UIAlignH(UIBuilder *builder, AlignH align);
+void UIAlignV(UIBuilder *builder, AlignV align);
 
 void UIPadding(UIBuilder *builder, float spacing);
 
 void UIBorder(UIBuilder *builder, float thickness, Color color);
 
 void UIShim(UIBuilder *builder, float width, float height);
+void UIShimH(UIBuilder *builder, float width);
+void UIShimV(UIBuilder *builder, float height);
+
+void UIBackground(UIBuilder *builder, Color color);
 
 void UIDraw(UIBuilder *builder, Vector2 position);
 
