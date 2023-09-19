@@ -49,6 +49,8 @@ void UIShim(UIBuilder *builder, float width, float height);
 void UIShimH(UIBuilder *builder, float width);
 void UIShimV(UIBuilder *builder, float height);
 
+void UIBackground(UIBuilder *builder, Color color);
+
 void UIDraw(UIBuilder *builder, Vector2 position);
 
 #endif
