@@ -25,6 +25,9 @@ int main(void)
             UIAlignH(builder, CENTER);
 
             UIText(builder, "Hello", 20, WHITE);
+
+            UIShimH(builder, 110);
+            UIAlignH(builder, RIGHT);
             UIRect(builder, 100, 100, BLUE);
 
             UIRow(builder, 10);
