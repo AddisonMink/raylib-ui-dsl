@@ -24,6 +24,7 @@ typedef enum TokenType
     TOKEN_BORDER,
     TOKEN_SHIM,
     TOKEN_SHIM_H,
+    TOKEN_SHIM_V,
 } TokenType;
 
 typedef struct RectToken
@@ -268,6 +269,13 @@ void UIShimH(UIBuilder *builder, float width)
         token->width = width;
 }
 
+void UIShimV(UIBuilder *builder, float height)
+{
+    Token *token = pushToken(builder, TOKEN_SHIM_V);
+    if (token)
+        token->height = height;
+}
+
 #pragma endregion
 
 #pragma region stack
@@ -408,6 +416,16 @@ static void updateContextSize(UIBuilder *builder, Token *token)
             token = context;
             cont = true;
         }
+        break;
+
+        case TOKEN_SHIM_V:
+        {
+            context->width = token->width;
+            popContext(builder);
+            token = context;
+            cont = true;
+        }
+        break;
 
         default:
             break;
@@ -677,6 +695,13 @@ static void draw(UIBuilder *builder, Vector2 position)
         break;
 
         case TOKEN_SHIM_H:
+        {
+            token->position = peekContext(builder)->position;
+            pushContext(builder, token);
+        }
+        break;
+
+        case TOKEN_SHIM_V:
         {
             token->position = peekContext(builder)->position;
             pushContext(builder, token);

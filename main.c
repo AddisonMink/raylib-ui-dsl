@@ -24,6 +24,8 @@ int main(void)
             UIRect(builder, 100, 100, RED);
             UIAlignH(builder, CENTER);
 
+            UIShimV(builder, 50);
+            UIAlignV(builder, BOTTOM);
             UIText(builder, "Hello", 20, WHITE);
 
             UIShimH(builder, 110);
